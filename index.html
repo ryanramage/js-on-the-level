@@ -636,7 +636,7 @@ db.createReadStream({start: 'r', end: 'r' + '\xff'})
           <h2>To The Browser!</h2>
           <img class="fragment" src="images/leveljs.png" />
           <p class="fragment">
-            level.js an implementation of the leveldown API on top of IndexedDB (which is in turn implemented on top of LevelDB, which brings this whole shebang full circle)
+            <a href="https://github.com/maxogden/level.js">level.js</a> an implementation of the leveldown API on top of IndexedDB (which is in turn implemented on top of LevelDB, which brings this whole shebang full circle)
           </p>
           <p class="fragment">This library is best used with browserify</p>
           <p class="fragment">
@@ -656,6 +656,7 @@ var db = levelup('/does/not/matter', { db: localstorage });
 
         <section>
           <h1>Plugins!</h1>
+          <p class="fragment">Things that you can use with any LevelDown compatable storage.</p>
         </section>
 
         <section>
@@ -687,14 +688,68 @@ var SubLevel = require('level-sublevel')
 
 
         <section>
-
+          <h2><a href="https://github.com/juliangruber/multilevel-http">multilevel-http</a></h2>
+          <p class="fragment">
+            A limitation of LevelDB is that only one process is allowed access to the underlying data. multilevel-http exports a LevelDB instance over http.
+          </p>
+          <h5  class="fragment">Server</h5>
+<pre class="javascript fragment"><code class="javascript" data-trim>
+var multilevel = require('multilevel-http')
+// db = levelup instance or path to db
+var server = multilevel.server(db, options)
+server.listen(5000)
+</code></pre>
+          <h5  class="fragment">Client</h5>
+<pre class="javascript fragment"><code class="javascript" data-trim>
+var multilevel = require('multilevel-http')
+var db = multilevel.client('http://localhost:5000/')
+// now you have the complete levelUP api!
+</code></pre>
         </section>
 
 
+        <section>
+          <h2><a href="https://github.com/hij1nx/level-replicator">level-replicator</a></h2>
+          <p>A simple eventually consistent master-master replication module for leveldb.</p>
+          <img src="images/replicator.png">
+        </section>
 
-				<section data-background-image="images/V06pPLp.gif">
+
+        <section>
+          <h2>How 'bout a graph database?</h2>
+          <img src="images/levelgraph.png" width="40%" />
+          <h4 class="fragment"><a href="https://github.com/mcollina/levelgraph">levelgraph</a></h4>
+        </section>
+
+
+        <section>
+          <h2>BYODB</h2>
+          <img src="images/death-star.jpg" />
+
+          <p class="fragment" >
+            The simple api surface area, combined with a powerful module system lets you build a DB as you want it.
+          </p>
+
+        </section>
+
+        <section>
+          <h1>Recap</h1>
+        </section>
+
+        <section>
+          <p>You can use levelup everywhere. Client, server, etc...</p>
+        </section>
+
+        <section>
+          <p>Tight API design and the small module philosophy that has been a success for LevelDB</p>
+        </section>
+
+        <section>
+          <h1>LevelDB will be EVERYWHERE if you do JS</h1>
+        </section>
+
+				<section data-background-image="js-on-the-level.png">
 					<h1>THANKS!</h1>
-					<h3>Living the Stream Dream</h3>
 
 					<p class="me">
 						<small>By <a href="http://github.com/ryanramage">Ryan Ramage</a> / <a href="http://twitter.com/ryan_ramage_">@ryan_ramage_</a></small>
