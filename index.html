@@ -25,6 +25,21 @@
 			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
 		</script>
 		<style type="text/css">
+
+.darkish {
+  color: black !important;
+}
+
+ul.smallish {
+  font-size: 30px;
+  line-height: 27px;
+}
+ul.smallish > li {
+  margin-bottom: 5px;
+}
+
+
+
 .middle {
 	width: 200px;
 	margin-left: auto !important;
@@ -439,16 +454,22 @@ section.intro {
         </section>
 
 
-        <section id="epVI" class="starwars crawl stretch present" data-background="images/bgstars.png" data-transition="none" style="display: block; top: -220.5px; height: 10em;">
+        <section class="starwars crawl stretch " data-background="images/bgstars.png" data-transition="none" style="display: block; top: -220.5px; height: 10em;">
           <div id="epVI-titles" class="titles"><div id="epVI-content" class="titlescontent">
-            <episode>Episode VI</episode>
-            <h2>PATH OF THE JEDI</h2>
+
+            <episode>Episode I</episode>
+            <h2>JEDI REBELLION</h2>
             <p>&nbsp;</p>
-            <p>Node Developer has returned to
-            his trusty Node.js in
-            an attempt to rescue his
+            <p>Node Jedis have returned to
+            their trusty Node.js in
+            an attempt to rescue the
             company from the
-            clutches of the vile Mongo the DB.</p>
+            clutches of the vile Mongo the DB.
+            </p>
+
+            <p>&nbsp;</p>
+            <p>Using a technology from the Google Galactic Empire they create on a powerful weapon...
+            </p>
           </div></div>
         </section>
 
@@ -528,6 +549,145 @@ db.batch()
   .put('occupation', 'Clown')
   .write(function () { console.log('Done!') })
         </code></pre>
+        </section>
+
+
+        <section>
+          <h5>Get a lightsabre</h5>
+          <h3>Streams!</h3>
+
+<pre class="javascript fragment"><code class="javascript" data-trim>
+function copy (srcdb, dstdb, callback) {
+  srcdb.createReadStream()
+    .pipe(dstdb.createWriteStream())
+    .on('close', callback)
+}
+</code></pre>
+
+<pre class="javascript fragment"><code class="javascript" data-trim>
+
+db.createReadStream()
+  .on('data', function (data) {
+    console.log(data.key, '=', data.value)
+  })
+  .on('error', function (err) {})
+  .on('close', function () {})
+  .on('end', function () {})
+
+</code></pre>
+        </section>
+
+        <section class="darkish" data-background-image="images/UEWrD.jpg">
+          <h2 class="darkish">Lightsaber Slicing</h2>
+<pre class="javascript fragment"><code class="javascript" data-trim>
+
+db.createReadStream({start: 'r', end: 'r' + '\xff'})
+  .on('data', function (data) {
+    only keys that start with r
+  })
+</code></pre>
+
+          <ul class="smallish">
+            <li class="fragment darkish"><b>start</b> default it will start at the beginning of store. *start* doesn't have to be an actual key that exists, LevelDB will simply find the *next* key, greater than the key you provide.</li>
+            <li class="fragment darkish"><b>end</b> default it will continue until the end of store. *end* doesn't have to be an actual key as an (inclusive) `<=`-type operation is performed to detect the end. </li>
+            <li class="fragment darkish"><b>reverse</b> a boolean, set to true if you want the stream to go in reverse order. A reverse seek will be slower than a forward seek.</li>
+            <li class="fragment darkish"><b>limit</b> The *maximum* number of results, and may not be reached if you get to the end of the store or your `'end'` value first.</li>
+
+          </ul>
+        </section>
+
+        <section class="starwars crawl stretch " data-background="images/bgstars.png" data-transition="none" style="display: block; top: -220.5px; height: 10em;">
+          <div id="epVI-titles" class="titles"><div id="epVI-content" class="titlescontent">
+
+            <episode>Episode II</episode>
+            <h2>A RIFT IN THE FORCE</h2>
+            <p>&nbsp;</p>
+            <p>Node Jedis split the LevelDB force into two factions
+               LevelUP and LevelDOWN.
+            </p>
+
+            <p>&nbsp;</p>
+            <p>This unleashes a wave of change and possibility across the universe...
+            </p>
+          </div></div>
+        </section>
+
+        <section>
+          <h5><a href="https://github.com/rvagg/node-levelup">node-levelup</a></h5>
+          <p>LevelUP becomes the API. No backing store</p>
+
+          <h5><a href="https://github.com/rvagg/node-leveldown">node-leveldown</a></h5>
+          <p>Pure C++ Node.js LevelDB binding serving as the back-end to LevelUP</p>
+
+        </section>
+
+        <section>
+          <h2>Alternate Backends</h2>
+          <ul>
+            <li class="fragment"><a href="https://github.com/rvagg/node-memdown">MemDown</a></li>
+            <li class="fragment"><a href="https://github.com/kesla/mysqldown">MysqlDown</a></li>
+            <li class="fragment"><a href="https://github.com/nlf/riakdown">RiakDown</a></li>
+            <li class="fragment"><a href="https://github.com/hmalphettes/redisdown">RedisDown</a></li>
+            <li class="fragment"><a href="https://github.com/richorama/azureleveldown">AzureDown</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>To The Browser!</h2>
+          <img class="fragment" src="images/leveljs.png" />
+          <p class="fragment">
+            level.js an implementation of the leveldown API on top of IndexedDB (which is in turn implemented on top of LevelDB, which brings this whole shebang full circle)
+          </p>
+          <p class="fragment">This library is best used with browserify</p>
+          <p class="fragment">
+          This week the last browser holdout of IndexedDB was announced!
+          </p>
+        </section>
+
+        <section>
+          <h2>Use different backend</h2>
+<pre class="javascript fragment"><code class="javascript" data-trim>
+var localstorage = require('localstorage-down');
+var levelup = require('levelup');
+var db = levelup('/does/not/matter', { db: localstorage });
+</code></pre>
+        </section>
+
+
+        <section>
+          <h1>Plugins!</h1>
+        </section>
+
+        <section>
+          <h2>level-sublevel</h2>
+          <p class="fragment">Adds the ability to create subsections that present the same API as LevelUP, but only write/read to a prefixed section, or bucket, of the key-space.</p>
+<pre class="javascript fragment"><code class="javascript" data-trim>
+var SubLevel = require('level-sublevel')
+    , db = level('/somewhere')
+    , sub = SubLevel(db)
+    , people = sub.sublevel('people')
+    , places = sub.sublevel('places')
+    , things = sub.sublevel('things')
+</code></pre>
+        </section>
+
+
+        <section>
+          <h2>jsonquery-engine</h2>
+          <p class="fragment">A full MongoDB query language implementation with INDEXES for querying your levelup/leveldb database.</p>
+<pre class="javascript fragment"><code class="javascript" data-trim>
+  db.query({ $and: [ { tags: 'tag1' }, { num: { $lt: 100 } } ] })
+    .on('data', console.log)
+    .on('stats', function (stats) {
+      // stats contains the query statistics in the format
+      //  { indexHits: 1, dataHits: 1, matchHits: 1 });
+    });
+</code></pre>
+        </section>
+
+
+        <section>
+
         </section>
 
 
